@@ -13,42 +13,42 @@ use Sammyjo20\Saloon\Traits\Plugins\AcceptsJson;
  */
 class AuthConnector extends SaloonConnector
 {
-	use AcceptsJson;
+    use AcceptsJson;
 
-	protected array $requests = ['fetchToken' => FetchTokenRequest::class];
+    protected array $requests = ['fetchToken' => FetchTokenRequest::class];
 
-	public function __construct(
-		protected string $apiBaseUrl = 'https://login.microsoftonline.com'
-	) {
-	}
+    public function __construct(
+        protected string $apiBaseUrl = 'https://login.microsoftonline.com'
+    ) {
+    }
 
-	/**
-	 * The Base URL of the API.
-	 *
-	 * @return string
-	 */
-	public function defineBaseUrl(): string
-	{
-		return $this->apiBaseUrl;
-	}
+    /**
+     * The Base URL of the API.
+     *
+     * @return string
+     */
+    public function defineBaseUrl(): string
+    {
+        return $this->apiBaseUrl;
+    }
 
-	/**
-	 * The headers that will be applied to every request.
-	 *
-	 * @return string[]
-	 */
-	public function defaultHeaders(): array
-	{
-		return [];
-	}
+    /**
+     * The headers that will be applied to every request.
+     *
+     * @return string[]
+     */
+    public function defaultHeaders(): array
+    {
+        return [];
+    }
 
-	/**
-	 * The config options that will be applied to every request.
-	 *
-	 * @return string[]
-	 */
-	public function defaultConfig(): array
-	{
-		return [];
-	}
+    /**
+     * The config options that will be applied to every request.
+     *
+     * @return string[]
+     */
+    public function defaultConfig(): array
+    {
+        return [];
+    }
 }
