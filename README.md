@@ -1,21 +1,22 @@
+![logo-print-hd-transparent](https://user-images.githubusercontent.com/77644584/200294033-8c4d0980-56ba-4443-96f0-9dde0753a4df.png)
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/support-ukraine.svg?t=1" />](https://supportukrainenow.org)
+# PHP SDK for Azure Data Explorer
 
-# Interfaces PHP with Azure Data Explorer
+This project is a PHP library that allows you to connect to Azure Data Explorer and execute queries.
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/reedtechus/azure-data-explorer.svg?style=flat-square)](https://packagist.org/packages/reedtechus/azure-data-explorer)
-[![Tests](https://github.com/reedtechus/azure-data-explorer/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/reedtechus/azure-data-explorer/actions/workflows/run-tests.yml)
-[![Total Downloads](https://img.shields.io/packagist/dt/reedtechus/azure-data-explorer.svg?style=flat-square)](https://packagist.org/packages/reedtechus/azure-data-explorer)
+It is not endorsed or supported by [Microsoft](https://github.com/microsoft) in any way.
 
-This is where your description should go. Try and limit it to a paragraph or two. Consider adding a small example.
+## Goals
 
-## Support us
+The goal of this project is to implement the [Azure Data Explorer REST API](https://learn.microsoft.com/en-us/azure/data-explorer/kusto/api/rest/) in PHP.
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/azure-data-explorer.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/azure-data-explorer)
+**Functional Milestones**
 
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+-   [ ] Authentication
+-   [ ] Query
+-   [ ] Management Commands
+-   [ ] Query v2
+-   [ ] Streaming Ingestion
 
 ## Installation
 
@@ -52,8 +53,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [Chris Reed](https://github.com/chrisreedio)
-- [All Contributors](../../contributors)
+-   [Chris Reed](https://github.com/chrisreedio)
+-   [All Contributors](../../contributors)
 
 ## License
 

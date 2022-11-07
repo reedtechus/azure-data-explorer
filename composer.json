@@ -1,6 +1,6 @@
 {
     "name": "reedtechus/azure-data-explorer",
-    "description": "Interfaces PHP with Azure Data Explorer",
+    "description": "PHP SDK for Azure Data Explorer",
     "keywords": [
         "reedtechus",
         "azure",
