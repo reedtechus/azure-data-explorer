@@ -1,16 +1,18 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "reedtechus/azure-data-explorer",
+    "description": "Interfaces PHP with Azure Data Explorer",
     "keywords": [
-        ":vendor_name",
-        ":package_slug"
+        "reedtechus",
+        "azure",
+        "data-explorer",
+        "kusto"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/reedtechus/azure-data-explorer",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Chris Reed",
+            "email": "chris@reedtech.us",
             "role": "Developer"
         }
     ],
@@ -24,12 +26,12 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src"
+            "ReedTech\\AzureDataExplorer\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "ReedTech\\AzureDataExplorer\\Tests\\": "tests"
         }
     },
     "scripts": {
