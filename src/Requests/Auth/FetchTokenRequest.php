@@ -1,8 +1,8 @@
 <?php
 
-namespace ReedTech\AzureAppAuth\Requests\Auth;
+namespace ReedTech\AzureDataExplorer\Requests\Auth;
 
-use ReedTech\AzureAppAuth\Connectors\AuthConnector;
+use ReedTech\AzureDataExplorer\Connectors\AuthConnector;
 use Sammyjo20\Saloon\Constants\Saloon;
 use Sammyjo20\Saloon\Http\SaloonRequest;
 use Sammyjo20\Saloon\Traits\Plugins\HasFormParams;
@@ -58,7 +58,7 @@ class FetchTokenRequest extends SaloonRequest
         return [
             'grant_type' => 'client_credentials',
             'resource' => "https://{$this->cluster}.{$this->region}.kusto.windows.net/",
-            'client_id' => $this->clientID,
+            'client_id' => $this->clientId,
             'client_secret' => $this->clientSecret,
         ];
     }
