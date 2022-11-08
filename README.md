@@ -35,7 +35,15 @@ composer require reedtechus/azure-data-explorer
 ## Usage
 
 ```php
-$dataExplorer = new AzureDataExplorer();
+use ReedTech\AzureDataExplorer\AzureDataExplorerApi;
+
+$dataExplorer = new AzureDataExplorerApi(
+	'AZURE_TENANT_ID',
+	'AZURE_CLIENT_ID',
+	'AZURE_CLIENT_SECRET',
+	'AZURE_DATA_EXPLORER_REGION',
+	'AZURE_DATA_EXPLORER_CLUSTER',
+);
 $results = $dataExplorer->query($query);
 ```
 
