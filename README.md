@@ -9,16 +9,17 @@
 
 This project is a PHP library that allows you to connect to Azure Data Explorer and execute queries.
 
-It is not endorsed or supported by [Microsoft](https://github.com/microsoft) in any way.
+> :warning: **Experimental:** This package is still in development and is not ready for production use.
+> Breaking changes can still occur **without** a major version change until **1.0.0**.
 
 ## Goals
 
 The goal of this project is to implement the [Azure Data Explorer REST API](https://learn.microsoft.com/en-us/azure/data-explorer/kusto/api/rest/) in PHP.
 
-**Functional Milestones**
+**Feature Roadmap**
 
--   [ ] Authentication
--   [ ] Query
+-   [x] Authentication
+-   [x] Query
 -   [ ] Management Commands
 -   [ ] Query v2
 -   [ ] Streaming Ingestion
@@ -34,8 +35,21 @@ composer require reedtechus/azure-data-explorer
 ## Usage
 
 ```php
-$skeleton = new ReedTech\AzureDataExplorer();
-echo $skeleton->echoPhrase('Hello, ReedTech!');
+$dataExplorer = new AzureDataExplorer();
+$results = $dataExplorer->query($query);
+```
+
+This returns a `QueryResultsDTO` object (or throws an exception).
+
+**Using the results**
+
+```php
+
+dump('Columns: '.implode(', ', $results->columns));
+dump('Number of Results: '.count($results->data));
+dump('Execution Time: '.$results->executionTime);
+
+dump('First Row: '.print_r($results->data[0], true));
 ```
 
 ## Testing
@@ -59,7 +73,9 @@ Please review [our security policy](../../security/policy) on how to report secu
 ## Credits
 
 -   [Chris Reed](https://github.com/chrisreedio)
--   [All Contributors](../../contributors)
+<!-- -   [All Contributors](../../contributors) -->
+
+This package is not endorsed nor supported by [Microsoft](https://github.com/microsoft) in any way.
 
 ## License
 

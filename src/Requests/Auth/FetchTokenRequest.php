@@ -43,18 +43,11 @@ class FetchTokenRequest extends SaloonRequest
      */
     public function defineEndpoint(): string
     {
-        // $tenantID = config('azure-app-auth.tenant_id');
-
         return "/{$this->tenantId}/oauth2/token";
     }
 
     public function defaultData(): array
     {
-        // $clientID = config('azure-app-auth.client_id');
-        // $clientSecret = config('azure-app-auth.client_secret');
-        // $cluster = config('azure-app-auth.cluster');
-        // $region = config('azure-app-auth.region');
-
         return [
             'grant_type' => 'client_credentials',
             'resource' => "https://{$this->cluster}.{$this->region}.kusto.windows.net/",
