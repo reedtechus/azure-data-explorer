@@ -2,10 +2,12 @@
 
 # PHP SDK for Azure Data Explorer
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/reedtechus/azure-data-explorer.svg?style=flat-square)](https://packagist.org/packages/reedtechus/azure-data-explorer)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/reedtechus/azure-data-explorer/run-tests?label=tests)](https://github.com/reedtechus/azure-data-explorer/actions?query=workflow%3Arun-tests+branch%3Amain)
+<!-- [![GitHub Tests Action Status](https://github.com/reedtechus/azure-data-explorer/workflows/Tests/badge.svg)](https://github.com/reedtechus/azure-data-explorer/actions?query=workflow%3Arun-tests+branch%3Amain) -->
+
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/reedtechus/azure-data-explorer.svg)](https://packagist.org/packages/reedtechus/azure-data-explorer)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/reedtechus/azure-data-explorer/Tests?label=tests)](https://github.com/reedtechus/azure-data-explorer/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/reedtechus/azure-data-explorer/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/reedtechus/azure-data-explorer/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/reedtechus/azure-data-explorer.svg?style=flat-square)](https://packagist.org/packages/reedtechus/azure-data-explorer)
+[![Total Downloads](https://img.shields.io/packagist/dt/reedtechus/azure-data-explorer.svg)](https://packagist.org/packages/reedtechus/azure-data-explorer)
 
 This project is a PHP library that allows you to connect to Azure Data Explorer and execute queries.
 
