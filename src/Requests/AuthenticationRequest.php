@@ -1,13 +1,13 @@
 <?php
 
-namespace ReedTech\AzureDataExplorer\Requests\Auth;
+namespace ReedTech\AzureDataExplorer\Requests;
 
 use ReedTech\AzureDataExplorer\Connectors\AuthConnector;
 use Sammyjo20\Saloon\Constants\Saloon;
 use Sammyjo20\Saloon\Http\SaloonRequest;
 use Sammyjo20\Saloon\Traits\Plugins\HasFormParams;
 
-class FetchTokenRequest extends SaloonRequest
+class AuthenticationRequest extends SaloonRequest
 {
     use HasFormParams;
 

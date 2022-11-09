@@ -1,6 +1,6 @@
 <?php
 
-namespace ReedTech\AzureDataExplorer\Requests\Query;
+namespace ReedTech\AzureDataExplorer\Requests;
 
 use ReedTech\AzureDataExplorer\Connectors\DataExplorerConnector;
 use ReedTech\AzureDataExplorer\Data\QueryResultsDTO;

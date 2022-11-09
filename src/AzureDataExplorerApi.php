@@ -11,8 +11,8 @@ use ReedTech\AzureDataExplorer\Exceptions\AuthException;
 use ReedTech\AzureDataExplorer\Exceptions\DTOException;
 use ReedTech\AzureDataExplorer\Exceptions\HTTPException;
 use ReedTech\AzureDataExplorer\Exceptions\QueryException;
-use ReedTech\AzureDataExplorer\Requests\Auth\FetchTokenRequest;
-use ReedTech\AzureDataExplorer\Requests\Query\QueryRequest;
+use ReedTech\AzureDataExplorer\Requests\AuthenticationRequest;
+use ReedTech\AzureDataExplorer\Requests\QueryRequest;
 use ReflectionException;
 use Sammyjo20\Saloon\Exceptions\SaloonException;
 use Sammyjo20\Saloon\Http\SaloonResponse;
@@ -21,7 +21,7 @@ class AzureDataExplorerApi
 {
     protected AuthConnector $authConnector;
 
-    protected FetchTokenRequest $authRequest;
+    protected AuthenticationRequest $authRequest;
 
     protected ?DataExplorerConnector $deConnector = null;
 
@@ -53,7 +53,7 @@ class AzureDataExplorerApi
     ) {
         $this->authConnector = new AuthConnector();
 
-        $this->authRequest = new FetchTokenRequest(
+        $this->authRequest = new AuthenticationRequest(
             $this->tenantId,
             $this->clientId,
             $this->clientSecret,
