@@ -50,7 +50,7 @@ class StreamingIngestRequest extends SaloonRequest
     {
         return [
             'streamFormat' => 'Json',
-            // 'mappingName' => $this->mapping,
+            'mappingName' => $this->mapping,
         ];
     }
 
