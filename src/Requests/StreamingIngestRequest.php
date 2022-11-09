@@ -14,6 +14,8 @@ class StreamingIngestRequest extends SaloonRequest
     use AcceptsJson;
     use HasJsonBody;
 
+    private string $database;
+
     private string $table;
 
     private string $mapping;
@@ -47,18 +49,20 @@ class StreamingIngestRequest extends SaloonRequest
     public function defaultQuery(): array
     {
         return [
-            'streamFormat' => 'JSON',
+            'streamFormat' => 'Json',
             // 'mappingName' => $this->mapping,
         ];
     }
 
     // public function __construct(public string $table, public array $payload)
-    public function __construct(protected string $database, protected IngestModelInterface $deModel)
+    public function __construct(protected IngestModelInterface $deModel)
     {
         // $this->database = config('services.data_explorer.enrichment_db');
-        $this->table = $deModel->getDETable();
-        $this->mapping = $deModel->getDEMapping();
-        $this->payload = $deModel->toDEIngest();
+        $this->database = $deModel->getIngestDatabase(); // Override the default database
+        $this->table = $deModel->getIngestTable();
+        // dd($this->table);
+        $this->mapping = $deModel->getIngestMapping();
+        $this->payload = $deModel->toIngest();
     }
 
     public function defaultData(): array

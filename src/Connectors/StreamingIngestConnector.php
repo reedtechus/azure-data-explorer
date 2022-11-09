@@ -9,10 +9,10 @@ use Sammyjo20\Saloon\Http\SaloonResponse;
 class StreamingIngestConnector extends DataExplorerConnector
 {
     // We need to prepend 'ingest-' to the cluster URL
-    protected function generateBaseURL(): string
-    {
-        return 'ingest-'.parent::generateBaseURL();
-    }
+    // protected function generateBaseURL(): string
+    // {
+    //     return 'ingest-'.parent::generateBaseURL();
+    // }
 
     public function boot(SaloonRequest $request): void
     {
@@ -20,6 +20,7 @@ class StreamingIngestConnector extends DataExplorerConnector
         $this->addResponseInterceptor(function (SaloonRequest $request, SaloonResponse $response) {
             if ($response->failed()) {
                 // $response->throw();
+                dd($response);
                 throw new IngestException($response->toGuzzleResponse()->getReasonPhrase(), $response->status(), $response->getGuzzleException());
             }
 

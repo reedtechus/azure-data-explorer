@@ -4,9 +4,11 @@ namespace ReedTech\AzureDataExplorer\Interfaces;
 
 interface IngestModelInterface
 {
-    public function getDEMapping(): string;
+    public function getIngestDatabase(): string;
 
-    public function getDETable(): string;
+    public function getIngestMapping(): string;
 
-    public function toDEIngest(): array;
+    public function getIngestTable(): string;
+
+    public function toIngest(): array;
 }

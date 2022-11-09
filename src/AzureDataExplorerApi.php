@@ -175,10 +175,10 @@ class AzureDataExplorerApi
         // Returns true if ready to query, otherwise throws an exception
         $this->validateSetup();
 
-        $request = new StreamingIngestRequest($this->database, $deModel);
-        $results = $this->ingestConnector->send($request);
+        $request = new StreamingIngestRequest($deModel);
+        $response = $this->ingestConnector->send($request);
 
-        return $results;
+        return $response;
     }
 
     private function validateSetup(): ?bool
