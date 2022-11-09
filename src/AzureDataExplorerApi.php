@@ -6,13 +6,15 @@ use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use ReedTech\AzureDataExplorer\Connectors\AuthConnector;
 use ReedTech\AzureDataExplorer\Connectors\DataExplorerConnector;
+use ReedTech\AzureDataExplorer\Connectors\StreamingIngestConnector;
 use ReedTech\AzureDataExplorer\Data\QueryResultsDTO;
 use ReedTech\AzureDataExplorer\Exceptions\AuthException;
 use ReedTech\AzureDataExplorer\Exceptions\DTOException;
-use ReedTech\AzureDataExplorer\Exceptions\HTTPException;
 use ReedTech\AzureDataExplorer\Exceptions\QueryException;
+use ReedTech\AzureDataExplorer\Interfaces\IngestModelInterface;
 use ReedTech\AzureDataExplorer\Requests\AuthenticationRequest;
 use ReedTech\AzureDataExplorer\Requests\QueryRequest;
+use ReedTech\AzureDataExplorer\Requests\StreamingIngestRequest;
 use ReflectionException;
 use Sammyjo20\Saloon\Exceptions\SaloonException;
 use Sammyjo20\Saloon\Http\SaloonResponse;
@@ -23,7 +25,9 @@ class AzureDataExplorerApi
 
     protected AuthenticationRequest $authRequest;
 
-    protected ?DataExplorerConnector $deConnector = null;
+    protected ?DataExplorerConnector $queryConnector = null;
+
+    protected ?StreamingIngestConnector $ingestConnector = null;
 
     protected ?string $database = null;
 
@@ -100,11 +104,6 @@ class AzureDataExplorerApi
         // Send the Auth request to Azure
         $response = $this->authConnector->send($this->authRequest);
 
-        // Error Handling for failed requests
-        if ($response->failed()) {
-            throw new AuthException($response->toGuzzleResponse()->getReasonPhrase(), $response->status(), $response->getGuzzleException());
-        }
-
         // Attempt to parse the access token from the response
         try {
             $this->token = $response->json('access_token');
@@ -112,7 +111,14 @@ class AzureDataExplorerApi
             throw new AuthException($e->getMessage(), $response->status());
         }
 
-        $this->deConnector = new DataExplorerConnector(
+        $this->queryConnector = new DataExplorerConnector(
+            $this->cluster,
+            $this->region,
+            $this->cluster,
+            $this->token
+        );
+
+        $this->ingestConnector = new StreamingIngestConnector(
             $this->cluster,
             $this->region,
             $this->cluster,
@@ -136,26 +142,11 @@ class AzureDataExplorerApi
      */
     public function query(string|array $query): ?QueryResultsDTO
     {
-        if ($this->token === null) {
-            if (! $this->fetchToken()) {
-                throw new AuthException('Failed to fetch token');
-            }
-        }
+        // Returns true if ready to query, otherwise throws an exception
+        $this->validateSetup();
 
-        if ($this->deConnector === null) {
-            throw new AuthException('Critical error! Data Explorer Connector is null!');
-        }
-
-        if ($this->database === null) {
-            throw new QueryException('Database is not set!');
-        }
-
-        $response = $this->deConnector->send(new QueryRequest($this->database, $query));
-
-        if ($response->failed()) {
-            dD($response->body());
-            throw new HTTPException($response->toGuzzleResponse()->getReasonPhrase(), $response->status(), $response->getGuzzleException());
-        }
+        // Run the Data Explorer query
+        $response = $this->queryConnector->send(new QueryRequest($this->database, $query));
 
         // Handle Successful Response
         try {
@@ -166,5 +157,46 @@ class AzureDataExplorerApi
         } catch (Exception $e) {
             throw new DTOException('Unable to parse response into DTO');
         }
+    }
+
+    /**
+     * Ingest data into Azure Data Explorer
+     *
+     * @param  IngestModelInterface  $model
+     * @return SaloonResponse
+     *
+     * @throws Exception
+     * @throws ReflectionException
+     * @throws GuzzleException
+     * @throws SaloonException
+     */
+    public function ingest(IngestModelInterface $deModel)
+    {
+        // Returns true if ready to query, otherwise throws an exception
+        $this->validateSetup();
+
+        $request = new StreamingIngestRequest($this->database, $deModel);
+        $results = $this->ingestConnector->send($request);
+
+        return $results->json();
+    }
+
+    private function validateSetup(): ?bool
+    {
+        if ($this->token === null) {
+            if (! $this->fetchToken()) {
+                throw new AuthException('Failed to fetch token');
+            }
+        }
+
+        if ($this->queryConnector === null) {
+            throw new AuthException('Critical error! Data Explorer Connector is null!');
+        }
+
+        if ($this->database === null) {
+            throw new QueryException('Database is not set!');
+        }
+
+        return true;
     }
 }

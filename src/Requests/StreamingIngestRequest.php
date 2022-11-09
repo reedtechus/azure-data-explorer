@@ -2,7 +2,7 @@
 
 namespace ReedTech\AzureDataExplorer\Requests;
 
-use ReedTech\AzureDataExplorer\Connectors\DataExplorerConnector;
+use ReedTech\AzureDataExplorer\Connectors\StreamingIngestConnector;
 use ReedTech\AzureDataExplorer\Interfaces\IngestModelInterface;
 use Sammyjo20\Saloon\Constants\Saloon;
 use Sammyjo20\Saloon\Http\SaloonRequest;
@@ -25,7 +25,7 @@ class StreamingIngestRequest extends SaloonRequest
      *
      * @var string|null
      */
-    protected ?string $connector = DataExplorerConnector::class;
+    protected ?string $connector = StreamingIngestConnector::class;
 
     /**
      * The HTTP verb the request will use.
