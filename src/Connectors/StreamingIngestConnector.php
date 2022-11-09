@@ -19,6 +19,7 @@ class StreamingIngestConnector extends DataExplorerConnector
         // If the response failed, throw a custom HTTP exception
         $this->addResponseInterceptor(function (SaloonRequest $request, SaloonResponse $response) {
             if ($response->failed()) {
+                // dump('Request URL: '.$request->getFullRequestUrl());
                 // Default error message
                 $errorMessage = 'The ingest request failed with the following error: '.$response->toGuzzleResponse()->getReasonPhrase();
                 // We can build a better error message in the case of a bad request
