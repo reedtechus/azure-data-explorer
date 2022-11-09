@@ -12,6 +12,7 @@
 This project is a PHP library that allows you to connect to Azure Data Explorer and execute queries.
 
 > :warning: **Experimental:** This package is still in development and is not ready for production use.
+>
 > Breaking changes can still occur **without** a major version change until **1.0.0**.
 
 ## Goals
@@ -22,9 +23,9 @@ The goal of this project is to implement the [Azure Data Explorer REST API](http
 
 -   [x] Authentication
 -   [x] Query
+-   [x] Streaming Ingestion
 -   [ ] Management Commands
 -   [ ] Query v2
--   [ ] Streaming Ingestion
 
 ## Installation
 
