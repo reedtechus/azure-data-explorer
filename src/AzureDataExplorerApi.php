@@ -170,7 +170,7 @@ class AzureDataExplorerApi
      * @throws GuzzleException
      * @throws SaloonException
      */
-    public function ingest(IngestModelInterface $deModel)
+    public function ingest(IngestModelInterface $deModel): SaloonResponse
     {
         // Returns true if ready to query, otherwise throws an exception
         $this->validateSetup();
@@ -178,7 +178,7 @@ class AzureDataExplorerApi
         $request = new StreamingIngestRequest($this->database, $deModel);
         $results = $this->ingestConnector->send($request);
 
-        return $results->json();
+        return $results;
     }
 
     private function validateSetup(): ?bool
