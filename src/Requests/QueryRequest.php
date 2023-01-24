@@ -14,64 +14,63 @@ use Saloon\Traits\Plugins\AcceptsJson;
 
 class QueryRequest extends Request implements HasBody
 {
-	use AcceptsJson;
-	use HasJsonBody;
+    use AcceptsJson;
+    use HasJsonBody;
 
-	public function __construct(protected string $database, public string|array $kustoQuery)
-	{
-	}
+    public function __construct(protected string $database, public string|array $kustoQuery)
+    {
+    }
 
-	/**
-	 * The connector class.
-	 *
-	 * @var string|null
-	 */
-	protected ?string $connector = DataExplorerConnector::class;
+    /**
+     * The connector class.
+     *
+     * @var string|null
+     */
+    protected ?string $connector = DataExplorerConnector::class;
 
-	/**
-	 * The HTTP verb the request will use.
-	 *
-	 * @var Method
-	 */
-	protected Method $method = Method::POST;
+    /**
+     * The HTTP verb the request will use.
+     *
+     * @var Method
+     */
+    protected Method $method = Method::POST;
 
-	/**
-	 * The endpoint of the request.
-	 *
-	 * @return string
-	 */
-	public function resolveEndpoint(): string
-	{
-		return '/v2/rest/query';
-	}
+    /**
+     * The endpoint of the request.
+     *
+     * @return string
+     */
+    public function resolveEndpoint(): string
+    {
+        return '/v2/rest/query';
+    }
 
-	public function defaultHeaders(): array
-	{
-		// $cluster = config('services.data_explorer.cluster');
-		// $region = config('services.data_explorer.region');
+    public function defaultHeaders(): array
+    {
+        // $cluster = config('services.data_explorer.cluster');
+        // $region = config('services.data_explorer.region');
 
-		return [
-			// 'Content-Type' => 'application/json',
-			// 'Host' => "$cluster.$region.kusto.windows.net",
-		];
-	}
+        return [
+            // 'Content-Type' => 'application/json',
+            // 'Host' => "$cluster.$region.kusto.windows.net",
+        ];
+    }
 
-	protected function defaultBody(): array
-	{
-		// Allows the user to pass in a single query string or an array of strings (multiple line queries)
-		$query = is_array($this->kustoQuery) ? implode("\n", $this->kustoQuery) : $this->kustoQuery;
+    protected function defaultBody(): array
+    {
+        // Allows the user to pass in a single query string or an array of strings (multiple line queries)
+        $query = is_array($this->kustoQuery) ? implode("\n", $this->kustoQuery) : $this->kustoQuery;
 
-		return [
-			'csl' => $query,
-			// 'db' => config('services.data_explorer.db'),
-			'db' => $this->database,
-		];
-	}
+        return [
+            'csl' => $query,
+            // 'db' => config('services.data_explorer.db'),
+            'db' => $this->database,
+        ];
+    }
 
-
-	// protected function castToDto(Response $response): object
-	public function createDtoFromResponse(ContractsResponse $response): mixed
-	{
-		return QueryResultsDTO::fromSaloon($response);
-	}
+    // protected function castToDto(Response $response): object
+    public function createDtoFromResponse(ContractsResponse $response): mixed
+    {
+        return QueryResultsDTO::fromSaloon($response);
+    }
 }
