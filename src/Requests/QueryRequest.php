@@ -4,18 +4,18 @@ namespace ReedTech\AzureDataExplorer\Requests;
 
 use ReedTech\AzureDataExplorer\Connectors\DataExplorerConnector;
 use ReedTech\AzureDataExplorer\Data\QueryResultsDTO;
-use Sammyjo20\Saloon\Constants\Saloon;
-use Sammyjo20\Saloon\Http\SaloonRequest;
-use Sammyjo20\Saloon\Http\SaloonResponse;
-use Sammyjo20\Saloon\Traits\Plugins\AcceptsJson;
-use Sammyjo20\Saloon\Traits\Plugins\CastsToDto;
-use Sammyjo20\Saloon\Traits\Plugins\HasJsonBody;
+use Saloon\Contracts\Body\HasBody;
+use Saloon\Contracts\Response as ContractsResponse;
+use Saloon\Enums\Method;
+use Saloon\Http\Request;
+use Saloon\Http\Response;
+use Saloon\Traits\Body\HasJsonBody;
+use Saloon\Traits\Plugins\AcceptsJson;
 
-class QueryRequest extends SaloonRequest
+class QueryRequest extends Request implements HasBody
 {
     use AcceptsJson;
     use HasJsonBody;
-    use CastsToDto;
 
     public function __construct(protected string $database, public string|array $kustoQuery)
     {
@@ -31,16 +31,16 @@ class QueryRequest extends SaloonRequest
     /**
      * The HTTP verb the request will use.
      *
-     * @var string|null
+     * @var Method
      */
-    protected ?string $method = Saloon::POST;
+    protected Method $method = Method::POST;
 
     /**
      * The endpoint of the request.
      *
      * @return string
      */
-    public function defineEndpoint(): string
+    public function resolveEndpoint(): string
     {
         return '/v2/rest/query';
     }
@@ -56,7 +56,7 @@ class QueryRequest extends SaloonRequest
         ];
     }
 
-    public function defaultData(): array
+    protected function defaultBody(): array
     {
         // Allows the user to pass in a single query string or an array of strings (multiple line queries)
         $query = is_array($this->kustoQuery) ? implode("\n", $this->kustoQuery) : $this->kustoQuery;
@@ -68,7 +68,8 @@ class QueryRequest extends SaloonRequest
         ];
     }
 
-    protected function castToDto(SaloonResponse $response): object
+    // protected function castToDto(Response $response): object
+    public function createDtoFromResponse(ContractsResponse $response): mixed
     {
         return QueryResultsDTO::fromSaloon($response);
     }

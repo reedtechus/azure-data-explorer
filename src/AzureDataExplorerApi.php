@@ -4,7 +4,7 @@ namespace ReedTech\AzureDataExplorer;
 
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
-use ReedTech\AzureDataExplorer\Connectors\AuthConnector;
+// use ReedTech\AzureDataExplorer\Connectors\AuthConnector;
 use ReedTech\AzureDataExplorer\Connectors\DataExplorerConnector;
 use ReedTech\AzureDataExplorer\Connectors\StreamingIngestConnector;
 use ReedTech\AzureDataExplorer\Data\QueryResultsDTO;
@@ -12,18 +12,20 @@ use ReedTech\AzureDataExplorer\Exceptions\AuthException;
 use ReedTech\AzureDataExplorer\Exceptions\DTOException;
 use ReedTech\AzureDataExplorer\Exceptions\QueryException;
 use ReedTech\AzureDataExplorer\Interfaces\IngestModelInterface;
-use ReedTech\AzureDataExplorer\Requests\AuthenticationRequest;
+use ReedTech\AzureDataExplorer\Requests\FetchToken;
 use ReedTech\AzureDataExplorer\Requests\QueryRequest;
 use ReedTech\AzureDataExplorer\Requests\StreamingIngestRequest;
 use ReflectionException;
-use Sammyjo20\Saloon\Exceptions\SaloonException;
-use Sammyjo20\Saloon\Http\SaloonResponse;
+use Saloon\Http\Response;
+
+// use Sammyjo20\Saloon\Exceptions\SaloonException;
+// use Sammyjo20\Saloon\Http\SaloonResponse;
 
 class AzureDataExplorerApi
 {
-    protected AuthConnector $authConnector;
+    // protected AuthConnector $authConnector;
 
-    protected AuthenticationRequest $authRequest;
+    protected FetchToken $authRequest;
 
     protected ?DataExplorerConnector $queryConnector = null;
 
@@ -55,9 +57,9 @@ class AzureDataExplorerApi
         protected string $region,
         protected string $cluster
     ) {
-        $this->authConnector = new AuthConnector();
+        // $this->authConnector = new AuthConnector();
 
-        $this->authRequest = new AuthenticationRequest(
+        $this->authRequest = new FetchToken(
             $this->tenantId,
             $this->clientId,
             $this->clientSecret,
@@ -79,10 +81,10 @@ class AzureDataExplorerApi
     //     return $this;
     // }
 
-    public function authUrl(): string
-    {
-        return $this->authConnector->defineBaseUrl().$this->authRequest->defineEndpoint();
-    }
+    // public function authUrl(): string
+    // {
+    // return $this->authConnector->defineBaseUrl() . $this->authRequest->defineEndpoint();
+    // }
 
     /**
      * Acquires a new Auth Token from the Azure Data Explorer API
@@ -102,7 +104,8 @@ class AzureDataExplorerApi
         }
 
         // Send the Auth request to Azure
-        $response = $this->authConnector->send($this->authRequest);
+        // $response = $this->authConnector->send($this->authRequest);
+        $response = $this->authRequest->send();
 
         // Attempt to parse the access token from the response
         try {
@@ -147,7 +150,7 @@ class AzureDataExplorerApi
 
         // Run the Data Explorer query
         $response = $this->queryConnector->send(new QueryRequest($this->database, $query));
-
+        // dd($response->json());
         // Handle Successful Response
         try {
             /** @var QueryResultsDTO $results */
@@ -163,14 +166,14 @@ class AzureDataExplorerApi
      * Ingest data into Azure Data Explorer
      *
      * @param  IngestModelInterface  $model
-     * @return SaloonResponse
+     * @return Response
      *
      * @throws Exception
      * @throws ReflectionException
      * @throws GuzzleException
      * @throws SaloonException
      */
-    public function ingest(IngestModelInterface $deModel): SaloonResponse
+    public function ingest(IngestModelInterface $deModel): Response
     {
         // Returns true if ready to query, otherwise throws an exception
         $this->validateSetup();

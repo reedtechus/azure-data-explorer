@@ -2,7 +2,7 @@
 
 namespace ReedTech\AzureDataExplorer\Data;
 
-use Sammyjo20\Saloon\Http\SaloonResponse;
+use Saloon\Http\Response;
 
 class QueryResultsDTO
 {
@@ -13,7 +13,7 @@ class QueryResultsDTO
     ) {
     }
 
-    public static function fromSaloon(SaloonResponse $response): self
+    public static function fromSaloon(Response $response): self
     {
         $data = $response->json();
 

@@ -4,12 +4,17 @@ namespace ReedTech\AzureDataExplorer\Requests;
 
 use ReedTech\AzureDataExplorer\Connectors\StreamingIngestConnector;
 use ReedTech\AzureDataExplorer\Interfaces\IngestModelInterface;
-use Sammyjo20\Saloon\Constants\Saloon;
-use Sammyjo20\Saloon\Http\SaloonRequest;
-use Sammyjo20\Saloon\Traits\Plugins\AcceptsJson;
-use Sammyjo20\Saloon\Traits\Plugins\HasJsonBody;
+use Saloon\Enums\Method;
+use Saloon\Http\Request;
+use Saloon\Traits\Body\HasJsonBody;
+use Saloon\Traits\Plugins\AcceptsJson;
 
-class StreamingIngestRequest extends SaloonRequest
+// use Sammyjo20\Saloon\Constants\Saloon;
+// use Sammyjo20\Saloon\Http\SaloonRequest;
+// use Sammyjo20\Saloon\Traits\Plugins\AcceptsJson;
+// use Sammyjo20\Saloon\Traits\Plugins\HasJsonBody;
+
+class StreamingIngestRequest extends Request
 {
     use AcceptsJson;
     use HasJsonBody;
@@ -32,16 +37,16 @@ class StreamingIngestRequest extends SaloonRequest
     /**
      * The HTTP verb the request will use.
      *
-     * @var string|null
+     * @var Method
      */
-    protected ?string $method = Saloon::POST;
+    protected Method $method = Method::POST;
 
     /**
      * The endpoint of the request.
      *
      * @return string
      */
-    public function defineEndpoint(): string
+    public function resolveEndpoint(): string
     {
         return "/v1/rest/ingest/{$this->database}/{$this->table}";
     }
@@ -62,7 +67,7 @@ class StreamingIngestRequest extends SaloonRequest
         $this->payload = $deModel->toIngest();
     }
 
-    public function defaultData(): array
+    protected function defaultBody(): array
     {
         return $this->payload;
     }

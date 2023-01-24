@@ -4,24 +4,20 @@ namespace ReedTech\AzureDataExplorer\Connectors;
 
 use ReedTech\AzureDataExplorer\Exceptions\HTTPException;
 use ReedTech\AzureDataExplorer\Requests\QueryRequest;
-use Sammyjo20\Saloon\Http\Auth\TokenAuthenticator;
-use Sammyjo20\Saloon\Http\SaloonConnector;
-use Sammyjo20\Saloon\Http\SaloonRequest;
-use Sammyjo20\Saloon\Http\SaloonResponse;
-use Sammyjo20\Saloon\Interfaces\AuthenticatorInterface;
-use Sammyjo20\Saloon\Traits\Auth\RequiresTokenAuth;
-use Sammyjo20\Saloon\Traits\Plugins\AcceptsJson;
-use Sammyjo20\Saloon\Traits\Plugins\HasJsonBody;
+use Saloon\Contracts\Authenticator;
+use Saloon\Http\Auth\TokenAuthenticator;
+use Saloon\Http\Connector;
+use Saloon\Traits\Body\HasJsonBody;
+use Saloon\Traits\Plugins\AcceptsJson;
 
-class DataExplorerConnector extends SaloonConnector
+class DataExplorerConnector extends Connector
 {
     use AcceptsJson;
     use HasJsonBody;
-    use RequiresTokenAuth;
 
     protected string $userAgent = 'AzureDataExplorer-PHPClient/0.1';
 
-    protected AuthConnector $authConnector;
+    // protected AuthConnector $authConnector;
 
     public function __construct(
         protected string $cluster,
@@ -32,19 +28,12 @@ class DataExplorerConnector extends SaloonConnector
         // $this->authenticator = new TokenAuthenticator();
     }
 
-    public function setAuth(AuthConnector $authConnector): self
-    {
-        $this->authConnector = $authConnector;
-
-        return $this;
-    }
-
     /**
      * The Base URL of the API.
      *
      * @return string
      */
-    public function defineBaseUrl(): string
+    public function resolveBaseUrl(): string
     {
         // $cluster = config('services.data_explorer.cluster');
         // $region = config('services.data_explorer.region');
@@ -74,17 +63,7 @@ class DataExplorerConnector extends SaloonConnector
         ];
     }
 
-    /**
-     * The config options that will be applied to every request.
-     *
-     * @return string[]
-     */
-    public function defaultConfig(): array
-    {
-        return [];
-    }
-
-    public function defaultAuth(): ?AuthenticatorInterface
+    public function defaultAuth(): Authenticator
     {
         // Fetch a token, it will probably be cached automatically
         // $tokenResponse = (new AuthenticationRequest())->send();
@@ -95,18 +74,18 @@ class DataExplorerConnector extends SaloonConnector
         return new TokenAuthenticator($this->token);
     }
 
-    public function boot(SaloonRequest $request): void
-    {
-        // If the response failed, throw a custom HTTP exception
-        $this->addResponseInterceptor(function (SaloonRequest $request, SaloonResponse $response) {
-            if ($response->failed()) {
-                // $response->throw();
-                throw new HTTPException($response->toGuzzleResponse()->getReasonPhrase(), $response->status(), $response->getGuzzleException());
-            }
+    // public function boot(SaloonRequest $request): void
+    // {
+    // 	// If the response failed, throw a custom HTTP exception
+    // 	$this->addResponseInterceptor(function (SaloonRequest $request, SaloonResponse $response) {
+    // 		if ($response->failed()) {
+    // 			// $response->throw();
+    // 			throw new HTTPException($response->toGuzzleResponse()->getReasonPhrase(), $response->status(), $response->getGuzzleException());
+    // 		}
 
-            return $response;
-        });
-    }
+    // 		return $response;
+    // 	});
+    // }
 
     protected function generateBaseURL(): string
     {

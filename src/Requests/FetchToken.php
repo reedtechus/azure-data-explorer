@@ -3,13 +3,16 @@
 namespace ReedTech\AzureDataExplorer\Requests;
 
 use ReedTech\AzureDataExplorer\Connectors\AuthConnector;
-use Sammyjo20\Saloon\Constants\Saloon;
-use Sammyjo20\Saloon\Http\SaloonRequest;
-use Sammyjo20\Saloon\Traits\Plugins\HasFormParams;
+use Saloon\Contracts\Body\HasBody;
+use Saloon\Enums\Method;
+use Saloon\Http\SoloRequest;
+use Saloon\Traits\Body\HasFormBody;
 
-class AuthenticationRequest extends SaloonRequest
+class FetchToken extends SoloRequest implements HasBody
 {
-    use HasFormParams;
+    use HasFormBody;
+
+    protected string $apiBaseUrl = 'https://login.microsoftonline.com';
 
     /**
      * The connector class.
@@ -21,9 +24,9 @@ class AuthenticationRequest extends SaloonRequest
     /**
      * The HTTP verb the request will use.
      *
-     * @var string|null
+     * @var Method
      */
-    protected ?string $method = Saloon::POST;
+    protected Method $method = Method::POST;
 
     public function __construct(
         protected string $tenantId,
@@ -41,18 +44,18 @@ class AuthenticationRequest extends SaloonRequest
      *
      * @return string
      */
-    public function defineEndpoint(): string
+    public function resolveEndpoint(): string
     {
-        return "/{$this->tenantId}/oauth2/token";
+        return $this->apiBaseUrl."/{$this->tenantId}/oauth2/token";
     }
 
-    public function defaultData(): array
+    protected function defaultBody(): array
     {
         return [
-            'grant_type' => 'client_credentials',
-            'resource' => "https://{$this->cluster}.{$this->region}.kusto.windows.net/",
             'client_id' => $this->clientId,
             'client_secret' => $this->clientSecret,
+            'grant_type' => 'client_credentials',
+            'resource' => "https://{$this->cluster}.{$this->region}.kusto.windows.net/",
         ];
     }
 }
