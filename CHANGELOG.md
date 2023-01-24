@@ -2,6 +2,10 @@
 
 All notable changes to `azure-data-explorer` will be documented in this file.
 
+## v0.2.0 - 2023-01-24
+
+Updated to Saloon v2.
+
 ## v0.1.1 - 2022-11-09
 
 Fix JSON format parameter for streaming ingest API.
