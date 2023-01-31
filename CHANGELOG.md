@@ -2,6 +2,10 @@
 
 All notable changes to `azure-data-explorer` will be documented in this file.
 
+## v0.2.1 - 2023-01-31
+
+Fixes issue with extra performance data being returned breaking the query DTO.
+
 ## v0.2.0 - 2023-01-24
 
 Updated to Saloon v2.
