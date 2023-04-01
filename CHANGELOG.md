@@ -2,6 +2,10 @@
 
 All notable changes to `azure-data-explorer` will be documented in this file.
 
+## v0.3.2 - 2023-04-01
+
+Added body contract to Ingest Request
+
 ## v0.3.1 - 2023-04-01
 
 ### Added initial pass of V1 Query Request
