@@ -14,6 +14,7 @@ use ReedTech\AzureDataExplorer\Exceptions\QueryException;
 use ReedTech\AzureDataExplorer\Interfaces\IngestModelInterface;
 use ReedTech\AzureDataExplorer\Requests\FetchToken;
 use ReedTech\AzureDataExplorer\Requests\QueryRequest;
+use ReedTech\AzureDataExplorer\Requests\QueryV1Request;
 use ReedTech\AzureDataExplorer\Requests\StreamingIngestRequest;
 use ReflectionException;
 use Saloon\Http\Response;
@@ -99,7 +100,7 @@ class AzureDataExplorerApi
     public function fetchToken(bool $force = false): string
     {
         // TODO - Temporary 'in memory' caching of the token
-        if (! $force && $this->token !== null) {
+        if (!$force && $this->token !== null) {
             return $this->token;
         }
 
@@ -150,7 +151,35 @@ class AzureDataExplorerApi
 
         // Run the Data Explorer query
         $response = $this->queryConnector->send(new QueryRequest($this->database, $query));
-        // dd($response->json());
+        // Handle Successful Response
+        try {
+            /** @var QueryResultsDTO $results */
+            $results = $response->dto();
+
+            return $results;
+        } catch (Exception $e) {
+            throw new DTOException('Unable to parse response into DTO');
+        }
+    }
+
+    /**
+     * Query Azure Data Explorer
+     *
+     * @param  string|array  $query
+     * @return QueryResultsDTO
+     *
+     * @throws Exception
+     * @throws ReflectionException
+     * @throws GuzzleException
+     * @throws SaloonException
+     */
+    public function queryV1(string|array $query): ?QueryResultsDTO
+    {
+        // Returns true if ready to query, otherwise throws an exception
+        $this->validateSetup();
+
+        // Run the Data Explorer query
+        $response = $this->queryConnector->send(new QueryV1Request($this->database, $query));
         // Handle Successful Response
         try {
             /** @var QueryResultsDTO $results */
@@ -187,7 +216,7 @@ class AzureDataExplorerApi
     private function validateSetup(): ?bool
     {
         if ($this->token === null) {
-            if (! $this->fetchToken()) {
+            if (!$this->fetchToken()) {
                 throw new AuthException('Failed to fetch token');
             }
         }

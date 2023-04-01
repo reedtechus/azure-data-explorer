@@ -38,7 +38,7 @@ class DataExplorerConnector extends Connector
         // $cluster = config('services.data_explorer.cluster');
         // $region = config('services.data_explorer.region');
 
-        return 'https://'.$this->generateBaseURL();
+        return 'https://' . $this->generateBaseURL();
     }
 
     protected array $requests = [
@@ -68,8 +68,6 @@ class DataExplorerConnector extends Connector
         // Fetch a token, it will probably be cached automatically
         // $tokenResponse = (new AuthenticationRequest())->send();
         // $token = $tokenResponse->json('access_token');
-
-        // dd($token);
 
         return new TokenAuthenticator($this->token);
     }
