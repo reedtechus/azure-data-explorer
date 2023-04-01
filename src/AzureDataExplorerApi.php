@@ -100,7 +100,7 @@ class AzureDataExplorerApi
     public function fetchToken(bool $force = false): string
     {
         // TODO - Temporary 'in memory' caching of the token
-        if (!$force && $this->token !== null) {
+        if (! $force && $this->token !== null) {
             return $this->token;
         }
 
@@ -136,7 +136,6 @@ class AzureDataExplorerApi
     /**
      * Query Azure Data Explorer
      *
-     * @param  string|array  $query
      * @return QueryResultsDTO
      *
      * @throws Exception
@@ -165,7 +164,6 @@ class AzureDataExplorerApi
     /**
      * Query Azure Data Explorer
      *
-     * @param  string|array  $query
      * @return QueryResultsDTO
      *
      * @throws Exception
@@ -195,7 +193,6 @@ class AzureDataExplorerApi
      * Ingest data into Azure Data Explorer
      *
      * @param  IngestModelInterface  $model
-     * @return Response
      *
      * @throws Exception
      * @throws ReflectionException
@@ -216,7 +213,7 @@ class AzureDataExplorerApi
     private function validateSetup(): ?bool
     {
         if ($this->token === null) {
-            if (!$this->fetchToken()) {
+            if (! $this->fetchToken()) {
                 throw new AuthException('Failed to fetch token');
             }
         }

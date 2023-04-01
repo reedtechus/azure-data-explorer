@@ -16,15 +16,11 @@ class FetchToken extends SoloRequest implements HasBody
 
     /**
      * The connector class.
-     *
-     * @var string|null
      */
     protected ?string $connector = AuthConnector::class;
 
     /**
      * The HTTP verb the request will use.
-     *
-     * @var Method
      */
     protected Method $method = Method::POST;
 
@@ -41,8 +37,6 @@ class FetchToken extends SoloRequest implements HasBody
 
     /**
      * The endpoint of the request.
-     *
-     * @return string
      */
     public function resolveEndpoint(): string
     {

@@ -29,22 +29,16 @@ class StreamingIngestRequest extends Request
 
     /**
      * The connector class.
-     *
-     * @var string|null
      */
     protected ?string $connector = StreamingIngestConnector::class;
 
     /**
      * The HTTP verb the request will use.
-     *
-     * @var Method
      */
     protected Method $method = Method::POST;
 
     /**
      * The endpoint of the request.
-     *
-     * @return string
      */
     public function resolveEndpoint(): string
     {

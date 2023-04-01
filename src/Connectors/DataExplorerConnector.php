@@ -30,15 +30,13 @@ class DataExplorerConnector extends Connector
 
     /**
      * The Base URL of the API.
-     *
-     * @return string
      */
     public function resolveBaseUrl(): string
     {
         // $cluster = config('services.data_explorer.cluster');
         // $region = config('services.data_explorer.region');
 
-        return 'https://' . $this->generateBaseURL();
+        return 'https://'.$this->generateBaseURL();
     }
 
     protected array $requests = [
