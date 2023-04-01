@@ -2,6 +2,12 @@
 
 All notable changes to `azure-data-explorer` will be documented in this file.
 
+## v0.3.1 - 2023-04-01
+
+### Added initial pass of V1 Query Request
+
+**Full Changelog**: https://github.com/reedtechus/azure-data-explorer/compare/v0.2.1...v0.3.1
+
 ## v0.2.1 - 2023-01-31
 
 Fixes issue with extra performance data being returned breaking the query DTO.
