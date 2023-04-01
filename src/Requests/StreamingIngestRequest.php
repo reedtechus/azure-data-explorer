@@ -17,53 +17,53 @@ use Saloon\Traits\Plugins\AcceptsJson;
 
 class StreamingIngestRequest extends Request implements HasBody
 {
-	use AcceptsJson;
-	use HasJsonBody;
+    use AcceptsJson;
+    use HasJsonBody;
 
-	private string $database;
+    private string $database;
 
-	private string $table;
+    private string $table;
 
-	private string $mapping;
+    private string $mapping;
 
-	private array $payload;
+    private array $payload;
 
-	/**
-	 * The connector class.
-	 */
-	protected ?string $connector = StreamingIngestConnector::class;
+    /**
+     * The connector class.
+     */
+    protected ?string $connector = StreamingIngestConnector::class;
 
-	/**
-	 * The HTTP verb the request will use.
-	 */
-	protected Method $method = Method::POST;
+    /**
+     * The HTTP verb the request will use.
+     */
+    protected Method $method = Method::POST;
 
-	/**
-	 * The endpoint of the request.
-	 */
-	public function resolveEndpoint(): string
-	{
-		return "/v1/rest/ingest/{$this->database}/{$this->table}";
-	}
+    /**
+     * The endpoint of the request.
+     */
+    public function resolveEndpoint(): string
+    {
+        return "/v1/rest/ingest/{$this->database}/{$this->table}";
+    }
 
-	public function defaultQuery(): array
-	{
-		return [
-			'streamFormat' => 'JSON',
-			'mappingName' => $this->mapping,
-		];
-	}
+    public function defaultQuery(): array
+    {
+        return [
+            'streamFormat' => 'JSON',
+            'mappingName' => $this->mapping,
+        ];
+    }
 
-	public function __construct(protected IngestModelInterface $deModel)
-	{
-		$this->database = $deModel->getIngestDatabase(); // Override the default database
-		$this->table = $deModel->getIngestTable();
-		$this->mapping = $deModel->getIngestMapping();
-		$this->payload = $deModel->toIngest();
-	}
+    public function __construct(protected IngestModelInterface $deModel)
+    {
+        $this->database = $deModel->getIngestDatabase(); // Override the default database
+        $this->table = $deModel->getIngestTable();
+        $this->mapping = $deModel->getIngestMapping();
+        $this->payload = $deModel->toIngest();
+    }
 
-	protected function defaultBody(): array
-	{
-		return $this->payload;
-	}
+    protected function defaultBody(): array
+    {
+        return $this->payload;
+    }
 }
